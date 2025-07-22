@@ -1,6 +1,9 @@
 package gift.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+
+import java.util.List;
 
 public record ProductRequest(
 
@@ -17,6 +20,9 @@ public record ProductRequest(
 
         @NotBlank(message = "이미지 URL은 필수입니다.")
         @Size(max = 500, message = "이미지 URL은 500자 이하여야 합니다.")
-        String imageUrl
+        String imageUrl,
+
+        @NotEmpty(message = "옵션은 최소 1개 이상 입력해야 합니다.")
+        List<@Valid OptionRequest> options
 
 ) {}

@@ -3,6 +3,7 @@ package gift.repository;
 import gift.domain.Member;
 import gift.domain.Product;
 import gift.domain.Wish;
+import gift.dto.OptionRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,7 +33,7 @@ class WishJpaRepositoryTest {
     void save() {
         // given
         Member member = memberJpaRepository.save(Member.create("user@example.com", "Password123!"));
-        Product product = productJpaRepository.save(Product.create("선물", 1000, "gift.jpg"));
+        Product product = productJpaRepository.save(Product.create("선물", 1000, "gift.jpg", List.of(new OptionRequest("기본", 10))));
 
         // when
         Wish wish = wishJpaRepository.save(Wish.create(member, product));
@@ -46,7 +49,7 @@ class WishJpaRepositoryTest {
     void existsByMemberAndProduct() {
         // given
         Member member = memberJpaRepository.save(Member.create("user@example.com", "Password123!"));
-        Product product = productJpaRepository.save(Product.create("선물", 1000, "gift.jpg"));
+        Product product = productJpaRepository.save(Product.create("선물", 1000, "gift.jpg",List.of(new OptionRequest("기본", 10))));
         wishJpaRepository.save(Wish.create(member, product));
 
         // when
@@ -81,7 +84,7 @@ class WishJpaRepositoryTest {
     void deleteByIdAndMemberId() {
         // given
         Member member = memberJpaRepository.save(Member.create("user@example.com", "Password123!"));
-        Product product = productJpaRepository.save(Product.create("선물", 1000, "gift.jpg"));
+        Product product = productJpaRepository.save(Product.create("선물", 1000, "gift.jpg",List.of(new OptionRequest("기본", 10))));
         Wish wish = wishJpaRepository.save(Wish.create(member, product));
 
         // when
@@ -99,7 +102,7 @@ class WishJpaRepositoryTest {
         Member member = memberJpaRepository.save(Member.create("user@example.com", "Password123!"));
 
         for (int i = 1; i <= 5; i++) {
-            Product product = productJpaRepository.save(Product.create("상품" + i, i * 1000, "img" + i + ".jpg"));
+            Product product = productJpaRepository.save(Product.create("상품" + i, i * 1000, "img" + i + ".jpg",List.of(new OptionRequest("기본", 10))));
             wishJpaRepository.save(Wish.create(member, product));
         }
 

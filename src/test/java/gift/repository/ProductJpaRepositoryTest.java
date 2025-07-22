@@ -1,6 +1,8 @@
 package gift.repository;
 
 import gift.domain.Product;
+import gift.dto.OptionRequest;
+import gift.dto.ProductRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ class ProductJpaRepositoryTest {
     @DisplayName("상품을 저장할 수 있다")
     void save() {
         // given
-        Product product = Product.create("상품A", 1000, "image.jpg");
+        Product product = Product.create("상품A", 1000, "image.jpg", List.of(new OptionRequest("기본", 10)));
 
         // when
         Product saved = productJpaRepository.save(product);
@@ -40,7 +42,7 @@ class ProductJpaRepositoryTest {
     @DisplayName("상품을 ID로 조회할 수 있다")
     void findById() {
         // given
-        Product product = Product.create("상품A", 1000, "image.jpg");
+        Product product = Product.create("상품A", 1000, "image.jpg",List.of(new OptionRequest("기본", 10)));
         Product saved = productJpaRepository.save(product);
 
         // when
@@ -55,8 +57,8 @@ class ProductJpaRepositoryTest {
     @DisplayName("저장된 모든 상품을 조회할 수 있다")
     void findAll() {
         // given
-        productJpaRepository.save(Product.create("상품A", 1000, "a.jpg"));
-        productJpaRepository.save(Product.create("상품B", 2000, "b.jpg"));
+        productJpaRepository.save(Product.create("상품A", 1000, "a.jpg",List.of(new OptionRequest("기본", 10))));
+        productJpaRepository.save(Product.create("상품B", 2000, "b.jpg",List.of(new OptionRequest("기본", 10))));
 
         // when
         List<Product> products = productJpaRepository.findAll();
@@ -69,7 +71,7 @@ class ProductJpaRepositoryTest {
     @DisplayName("상품 ID 존재 여부를 확인할 수 있다")
     void existsById() {
         // given
-        Product product = productJpaRepository.save(Product.create("상품", 1000, "image.jpg"));
+        Product product = productJpaRepository.save(Product.create("상품", 1000, "image.jpg",List.of(new OptionRequest("기본", 10))));
 
         // when & then
         assertThat(productJpaRepository.existsById(product.getId())).isTrue();
@@ -80,7 +82,7 @@ class ProductJpaRepositoryTest {
     @DisplayName("상품을 삭제할 수 있다")
     void deleteById() {
         // given
-        Product saved = productJpaRepository.save(Product.create("상품", 1000, "image.jpg"));
+        Product saved = productJpaRepository.save(Product.create("상품", 1000, "image.jpg",List.of(new OptionRequest("기본", 10))));
         Long id = saved.getId();
 
         // when
@@ -94,7 +96,7 @@ class ProductJpaRepositoryTest {
     @DisplayName("상품 정보를 수정할 수 있다 (변경 감지)")
     void update() {
         // given
-        Product product = productJpaRepository.save(Product.create("상품", 1000, "image.jpg"));
+        Product product = productJpaRepository.save(Product.create("상품", 1000, "image.jpg",List.of(new OptionRequest("기본", 10))));
 
         // when
         product.update("수정된상품", 2000, "new.jpg");

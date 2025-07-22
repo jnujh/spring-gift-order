@@ -1,36 +1,23 @@
 # 미션 3. 상품 고도화
 
-## 2단계 : 페이지네이션
+## 3단계 : 상품 옵션
 
 ---
 
-### 1. 연관관계 리팩토링
+Option Entity 생성
 
-Wish Entity 에서만 Product와 Member를 참조하던 기존 구조에서,  
-Product와 Member Entity 에도 각각 List<Wish> 필드를 추가하여 양방향 연관관계를 구성했습니다.
+OptionJpaRepository 생성
 
-- Member → Wish, Product → Wish 방향의 객체 탐색 가능
-- Wish.create() 메서드 내부에서 양방향 관계를 명시적으로 연결
+OptionRequest, OptionResponse DTO 생성
 
--> 객체 그래프 탐색이 원활하게 이루어질 수 있도록 리팩토링했습니다.
+OptionService 구현
 
----
+Product 와 Option 연관관계 설정
 
-### 2. 페이지네이션 기능 적용
+상품 옵션 목록 조회 API
 
-사용자의 위시 항목이 많아질 경우를 위시리스트 전체를 조회하는 건 적절하지 않을 수 있기 때문에 페이지네이션을 적용,  
-상품의 종류가 많아질 경우 상품 목록 전체를 조회하는 건 적절하지 않을 수 있기 때문에 페이지네이션을 적용
+OptionAdminController
 
-Spring Data JPA 의 Pageable 기능을 활용하여 페이지네이션을 적용했습니다.
+옵션 등록 폼 및 처리
 
-- Repository: 
-  - Page<Wish> findByMemberId(Long memberId, Pageable pageable) 메서드 추가
-  - Page<Product> findAll(Pageable pageable) 메소드 추가
-  - Page<Product> findByNameContainingIgnoreCase(String keyword, Pageable pageable) 메소드 추가
-- Service: 
-  - 기존 List<Wish> 반환 방식을 Page<Wish>로 변경
-  - 기존 Lish<Product> 반환 방식을 Page<Product>로 변경
-- Controller: @PageableDefault 어노테이션을 이용해 GET 요청 시 페이지 정보 수신
-- 응답은 Page<WishResponse> 및 Page<ProductResponse> 형태로 전달되며, 페이징 정보가 함께 포함됨
-
--> 위시리스트 전체를 한 번에 조회하지 않고, 페이지 단위로 나눠 조회할 수 있도록 리팩토링했습니다.
+OptionService 테스트

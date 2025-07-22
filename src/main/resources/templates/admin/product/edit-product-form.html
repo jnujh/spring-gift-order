@@ -19,5 +19,24 @@
     </div>
 </form>
 
+<h3>옵션 목록</h3>
+<table border="1">
+    <tr>
+        <th>옵션 이름</th>
+        <th>수량</th>
+        <th>삭제</th>
+    </tr>
+    <tr th:each="option : ${options}">
+        <td th:text="${option.name}">옵션 이름</td>
+        <td th:text="${option.quantity}">수량</td>
+        <td>
+            <form th:action="@{/admin/products/{productId}/options/{optionId}/delete(productId=${productId}, optionId=${option.id})}" method="post"
+                  onsubmit="return confirm('정말 이 옵션을 삭제하시겠습니까?');">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>

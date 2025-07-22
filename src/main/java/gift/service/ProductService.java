@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.domain.Product;
+import gift.dto.ProductRequest;
 import gift.exception.ProductNotFoundException;
 import gift.repository.ProductJpaRepository;
 import org.springframework.data.domain.Page;
@@ -21,10 +22,19 @@ public class ProductService {
     }
 
     @Transactional
-    public Product create(String name, int price, String imageUrl) {
-        validateNameContainKakao(name);
-        return repository.save(Product.create(name, price, imageUrl));
+    public Product create(ProductRequest request) {
+        validateNameContainKakao(request.name());
+
+        Product product = Product.create(
+                request.name(),
+                request.price(),
+                request.imageUrl(),
+                request.options()
+        );
+
+        return repository.save(product);
     }
+
 
     @Transactional(readOnly = true)
     public Product findById(Long id) {
@@ -57,20 +67,6 @@ public class ProductService {
             return; // 멱등성 유지
         }
         repository.deleteById(id);
-    }
-
-    private Comparator<Product> createComparator(String sort) {
-        String[] parts = sort.split(",");
-        String key = parts[0];
-        boolean ascending = parts.length < 2 || parts[1].equalsIgnoreCase("asc");
-
-        Comparator<Product> comparator = switch (key) {
-            case "name" -> Comparator.comparing(Product::getName);
-            case "price" -> Comparator.comparingInt(Product::getPrice);
-            default -> Comparator.comparing(Product::getId);
-        };
-
-        return ascending ? comparator : comparator.reversed();
     }
 
     private void validateNameContainKakao(String name) {

@@ -1,5 +1,6 @@
 package gift.domain;
 
+import gift.dto.OptionRequest;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -27,16 +28,30 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wish> wishes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Option> options = new ArrayList<>();
+
     protected Product() {
     }
 
     // 새로운 상품 생성 (정적 팩토리 메서드)
-    public static Product create(String name, int price, String imageUrl) {
+    public static Product create(String name, int price, String imageUrl, List<OptionRequest> optionRequests) {
         validate(name, price, imageUrl);
+
+        if (optionRequests == null || optionRequests.isEmpty()) {
+            throw new IllegalArgumentException("상품은 최소 하나의 옵션을 포함해야 합니다.");
+        }
+
         Product product = new Product();
         product.name = name;
         product.price = price;
         product.imageUrl = imageUrl;
+
+        for (OptionRequest optionRequest : optionRequests) {
+            Option option = Option.create(product, optionRequest.name(), optionRequest.quantity());
+            product.options.add(option);
+        }
+
         return product;
     }
 
@@ -60,4 +75,5 @@ public class Product {
     public int getPrice() { return price; }
     public String getImageUrl() { return imageUrl; }
     public List<Wish> getWishes() { return wishes; }
+    public List<Option> getOptions() { return options; }
 }

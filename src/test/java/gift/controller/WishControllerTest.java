@@ -2,6 +2,8 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.domain.ProductOld;
+import gift.dto.OptionRequest;
+import gift.dto.ProductRequest;
 import gift.dto.WishResponse;
 import gift.service.MemberService;
 import gift.service.ProductService;
@@ -19,6 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -168,7 +171,13 @@ public class WishControllerTest {
     }
 
     private Product createTestProduct(String name, int price) {
-        return productService.create(name, price, "http://image.com/image.jpg");
+        ProductRequest request = new ProductRequest(
+                "초코파이",
+                1000,
+                "http://example.com/chocopie.jpg",
+                List.of(new OptionRequest("기본", 10))
+        );
+        return productService.create(request);
     }
 
     private HttpHeaders authHeader(String token) {

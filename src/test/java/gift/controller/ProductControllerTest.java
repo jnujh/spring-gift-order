@@ -1,6 +1,7 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.dto.OptionRequest;
 import gift.dto.ProductRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -26,7 +29,10 @@ public class ProductControllerTest {
     @Test
     void 정상적인_상품등록_요청이면_201_응답을_반환한다() throws Exception {
         ProductRequest request = new ProductRequest(
-                 "허용된이름", 1000, "http://example.com/image.jpg"
+                "초코파이",
+                1000,
+                "http://example.com/chocopie.jpg",
+                List.of(new OptionRequest("기본", 10))
         );
 
         mockMvc.perform(post("/api/products")
@@ -38,7 +44,10 @@ public class ProductControllerTest {
     @Test
     void 상품이름이_15자초과면_400_응답을_반환한다() throws Exception {
         ProductRequest request = new ProductRequest(
-                 "너무너무너무너무긴상품이름123123123", 1000, "http://example.com/image.jpg"
+                "너무너무너무너무긴상품이름123123123",
+                1000,
+                "http://example.com/chocopie.jpg",
+                List.of(new OptionRequest("기본", 10))
         );
 
         mockMvc.perform(post("/api/products")
@@ -51,8 +60,12 @@ public class ProductControllerTest {
     @Test
     void 상품이름에_허용되지않은_특수문자가_있으면_400_응답을_반환한다() throws Exception {
         ProductRequest request = new ProductRequest(
-                 "이름@에러", 1000, "http://example.com/image.jpg"
+                "이름@에러",
+                1000,
+                "http://example.com/chocopie.jpg",
+                List.of(new OptionRequest("기본", 10))
         );
+
 
         mockMvc.perform(post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
