@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>상품 관리</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<h1>상품 목록</h1>
+
+<!-- 검색 폼 -->
+<form method="get" th:action="@{/admin/products}">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="상품 ID 또는 이름 검색"/>
+    <button type="submit">검색</button>
+</form>
+
+<!-- 상품 등록 버튼 -->
+<div style="margin-top: 10px;">
+    <a th:href="@{/admin/products/new}">상품 등록</a>
+</div>
+
+<!-- 상품 테이블 -->
+<table border="1" cellpadding="5" cellspacing="0" style="margin-top: 10px;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>이미지</th>
+        <th>옵션</th>
+        <th>작업</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${products}">
+        <td th:text="${p.id}">1</td>
+        <td th:text="${p.name}">상품명</td>
+        <td th:text="${p.price}">1000</td>
+        <td><img th:src="${p.imageUrl}" width="100"/></td>
+
+        <!-- 옵션 열: 보기 및 추가 -->
+        <td>
+            <a th:href="@{/admin/products/{id}/edit(id=${p.id})}">옵션 보기</a><br/>
+            <a th:href="@{/admin/products/{id}/options/new(id=${p.id})}">옵션 추가</a>
+        </td>
+
+        <td>
+            <a th:href="@{|/admin/products/${p.id}/edit|}">수정</a>
+            <form th:action="@{|/admin/products/${p.id}/delete|}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('정말 삭제할까요?');">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 페이지네이션 -->
+<div style="margin-top: 20px;">
+    <div th:if="${page.totalPages > 1}">
+        <ul style="list-style: none; display: flex; gap: 10px; padding: 0;">
+            <!-- 이전 페이지 -->
+            <li th:if="${page.hasPrevious()}">
+                <a th:href="@{/admin/products(page=${page.number - 1}, keyword=${keyword})}">◀ 이전</a>
+            </li>
+
+            <!-- 페이지 번호 -->
+            <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${i == page.number} ? 'active'">
+                <a th:href="@{/admin/products(page=${i}, keyword=${keyword})}"
+                   th:text="${i + 1}">1</a>
+            </li>
+
+            <!-- 다음 페이지 -->
+            <li th:if="${page.hasNext()}">
+                <a th:href="@{/admin/products(page=${page.number + 1}, keyword=${keyword})}">다음 ▶</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

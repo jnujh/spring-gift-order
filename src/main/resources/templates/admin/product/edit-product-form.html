@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>상품 수정</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<h1>상품 수정</h1>
+
+<form th:action="@{/admin/products/{id}/edit(id=${productId})}" th:object="${productRequest}" method="post">
+
+    <div th:replace="admin/product/form-fields :: productFormFields"></div>
+
+
+    <div style="margin-top: 10px;">
+        <button type="submit">수정</button>
+        <a th:href="@{/admin/products}">뒤로가기</a>
+    </div>
+</form>
+
+<h3>옵션 목록</h3>
+<table border="1">
+    <tr>
+        <th>옵션 이름</th>
+        <th>수량</th>
+        <th>삭제</th>
+    </tr>
+    <tr th:each="option : ${options}">
+        <td th:text="${option.name}">옵션 이름</td>
+        <td th:text="${option.quantity}">수량</td>
+        <td>
+            <form th:action="@{/admin/products/{productId}/options/{optionId}/delete(productId=${productId}, optionId=${option.id})}" method="post"
+                  onsubmit="return confirm('정말 이 옵션을 삭제하시겠습니까?');">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
