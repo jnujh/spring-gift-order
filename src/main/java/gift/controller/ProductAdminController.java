@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -57,7 +58,7 @@ public class ProductAdminController {
      */
     @GetMapping("/new")
     public String newForm(Model model) {
-        model.addAttribute("productRequest", new ProductRequest("", 0, "", List.of()));
+        model.addAttribute("productRequest", new ProductRequest("", 0, "", new ArrayList<>()));
         return "admin/product/create-product-form";
     }
 

@@ -89,7 +89,7 @@ class OptionServiceTest {
         List<?> list = optionService.getOptionsByProductId(savedProduct.getId());
 
         // then
-        assertThat(list).hasSize(2);
+        assertThat(list).hasSize(3);
     }
 
     @Test

@@ -19,5 +19,28 @@
     </div>
 </form>
 
+<script>
+    document.getElementById('add-option-btn').addEventListener('click', function() {
+        const container = document.getElementById('options-container');
+        const index = container.getElementsByClassName('option-item').length;
+
+        const newOptionDiv = document.createElement('div');
+        newOptionDiv.classList.add('option-item');
+
+        newOptionDiv.innerHTML = `
+            <input type="text" name="options[${index}].name" placeholder="옵션 이름 (예: 1kg)" required>
+            <input type="number" name="options[${index}].quantity" placeholder="수량 (예: 100)" required>
+            <button type="button" onclick="removeOption(this)">삭제</button>
+        `;
+        container.appendChild(newOptionDiv);
+    });
+
+    // 옵션 삭제 함수
+    function removeOption(button) {
+        button.parentElement.remove();
+    }
+</script>
+
+
 </body>
 </html>

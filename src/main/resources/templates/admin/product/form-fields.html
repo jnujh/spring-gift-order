@@ -20,6 +20,22 @@
     <div th:if="${errors?.fieldErrorCount > 0}" th:errors="*{imageUrl}" style="color: red"></div>
 </div>
 
+<!-- ===== 옵션 관리 부분 추가 ===== -->
+<hr>
+<h3>옵션 관리</h3>
+<div id="options-container">
+    <!-- th:each를 사용해 기존 옵션들을 렌더링합니다. (처음엔 비어있음) -->
+    <div th:each="option, stat : *{options}" class="option-item">
+        <input type="text" th:field="*{options[__${stat.index}__].name}" placeholder="옵션 이름 (예: 1kg)">
+        <input type="number" th:field="*{options[__${stat.index}__].quantity}" placeholder="수량 (예: 100)">
+        <button type="button" onclick="removeOption(this)">삭제</button>
+    </div>
+</div>
+<!-- 옵션 전체에 대한 유효성 검사 오류 메시지 -->
+<div th:if="${#fields.hasErrors('options')}" th:errors="*{options}" class="error"></div>
+<button type="button" id="add-option-btn">옵션 추가</button>
+<!-- ===== 옵션 관리 부분 끝 ===== -->
+
 <div th:if="${errorMessage}" style="color:red;">
     <p th:text="${errorMessage}"></p>
 </div>
