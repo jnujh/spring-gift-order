@@ -1,7 +1,7 @@
 package gift.config;
 
-import gift.resolver.LoginMemberArgumentResolver;
-import gift.service.MemberService;
+import gift.global.resolver.LoginMemberArgumentResolver;
+import gift.member.service.MemberService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

@@ -1,6 +1,6 @@
-package gift.resolver;
+package gift.global.resolver;
 
-import gift.annotation.LoginMember;
+import gift.global.annotation.LoginMember;
 import gift.member.domain.Member;
 import gift.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;

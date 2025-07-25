@@ -1,16 +1,13 @@
-package gift.service;
+package gift.product.service;
 
-import gift.domain.Product;
-import gift.dto.ProductRequest;
-import gift.exception.ProductNotFoundException;
-import gift.repository.ProductJpaRepository;
+import gift.product.domain.Product;
+import gift.product.dto.ProductRequest;
+import gift.product.exception.ProductNotFoundException;
+import gift.product.repository.ProductJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Comparator;
-import java.util.List;
 
 @Service
 public class ProductService {

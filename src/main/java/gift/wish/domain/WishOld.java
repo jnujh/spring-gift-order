@@ -1,4 +1,4 @@
-package gift.domain;
+package gift.wish.domain;
 
 import java.time.LocalDateTime;
 

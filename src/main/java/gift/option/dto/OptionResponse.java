@@ -1,6 +1,6 @@
-package gift.dto;
+package gift.option.dto;
 
-import gift.domain.Option;
+import gift.option.domain.Option;
 
 public record OptionResponse(
         Long id,

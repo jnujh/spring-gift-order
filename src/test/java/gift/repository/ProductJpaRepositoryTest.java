@@ -1,8 +1,8 @@
 package gift.repository;
 
-import gift.domain.Product;
-import gift.dto.OptionRequest;
-import gift.dto.ProductRequest;
+import gift.product.domain.Product;
+import gift.option.dto.OptionRequest;
+import gift.product.repository.ProductJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

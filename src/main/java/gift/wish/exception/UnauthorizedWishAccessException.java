@@ -1,4 +1,4 @@
-package gift.global.exception;
+package gift.wish.exception;
 
 public class UnauthorizedWishAccessException extends RuntimeException {
   public UnauthorizedWishAccessException(String message) {

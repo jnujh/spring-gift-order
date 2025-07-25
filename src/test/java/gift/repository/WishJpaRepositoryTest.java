@@ -1,9 +1,12 @@
 package gift.repository;
 
-import gift.domain.Member;
-import gift.domain.Product;
-import gift.domain.Wish;
-import gift.dto.OptionRequest;
+import gift.member.domain.Member;
+import gift.member.repository.MemberJpaRepository;
+import gift.product.domain.Product;
+import gift.wish.domain.Wish;
+import gift.option.dto.OptionRequest;
+import gift.product.repository.ProductJpaRepository;
+import gift.wish.repository.WishJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

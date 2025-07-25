@@ -1,4 +1,4 @@
-package gift.global.exception;
+package gift.wish.exception;
 
 public class AlreadyWishedException extends RuntimeException {
   public AlreadyWishedException() {

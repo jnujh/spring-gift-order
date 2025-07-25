@@ -1,12 +1,11 @@
-package gift.controller;
+package gift.product.controller;
 
-import gift.domain.Option;
-import gift.domain.Product;
-import gift.dto.OptionResponse;
-import gift.dto.ProductRequest;
-import gift.dto.ProductResponse;
-import gift.service.OptionService;
-import gift.service.ProductService;
+import gift.product.domain.Product;
+import gift.option.dto.OptionResponse;
+import gift.product.dto.ProductRequest;
+import gift.product.dto.ProductResponse;
+import gift.option.service.OptionService;
+import gift.product.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,7 @@
-package gift.domain;
+package gift.member.domain;
 
-import gift.policy.EmailPolicy;
-import gift.policy.PasswordPolicy;
+import gift.member.policy.EmailPolicy;
+import gift.member.policy.PasswordPolicy;
 
 public class MemberOld {
 

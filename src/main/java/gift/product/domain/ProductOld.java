@@ -1,4 +1,4 @@
-package gift.domain;
+package gift.product.domain;
 
 public class ProductOld {
     private static final int MIN_PRICE = 0;

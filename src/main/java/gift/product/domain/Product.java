@@ -1,6 +1,8 @@
-package gift.domain;
+package gift.product.domain;
 
-import gift.dto.OptionRequest;
+import gift.option.domain.Option;
+import gift.wish.domain.Wish;
+import gift.option.dto.OptionRequest;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

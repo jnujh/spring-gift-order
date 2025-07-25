@@ -1,8 +1,8 @@
-package gift.service;
+package gift.member.service;
 
-import gift.domain.Member;
-import gift.exception.ForbiddenException;
-import gift.repository.MemberJpaRepository;
+import gift.member.domain.Member;
+import gift.global.exception.ForbiddenException;
+import gift.member.repository.MemberJpaRepository;
 import gift.auth.JwtTokenProvider;
 import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;

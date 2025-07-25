@@ -1,8 +1,8 @@
-package gift.repository;
+package gift.wish.repository;
 
-import gift.domain.Wish;
-import gift.domain.Member;
-import gift.domain.Product;
+import gift.wish.domain.Wish;
+import gift.member.domain.Member;
+import gift.product.domain.Product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

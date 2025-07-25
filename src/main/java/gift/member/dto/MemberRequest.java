@@ -1,10 +1,10 @@
-package gift.dto;
+package gift.member.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-import static gift.policy.EmailPolicy.*;
-import static gift.policy.PasswordPolicy.*;
+import static gift.member.policy.EmailPolicy.*;
+import static gift.member.policy.PasswordPolicy.*;
 
 public record MemberRequest(
 

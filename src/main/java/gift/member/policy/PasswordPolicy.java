@@ -1,4 +1,4 @@
-package gift.policy;
+package gift.member.policy;
 
 public class PasswordPolicy {
 

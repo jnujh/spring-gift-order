@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.wish.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

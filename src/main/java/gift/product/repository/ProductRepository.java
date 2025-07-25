@@ -1,6 +1,6 @@
-package gift.repository;
+package gift.product.repository;
 
-import gift.domain.ProductOld;
+import gift.product.domain.ProductOld;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

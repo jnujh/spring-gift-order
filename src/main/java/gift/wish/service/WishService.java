@@ -1,17 +1,17 @@
-package gift.service;
+package gift.wish.service;
 
-import gift.domain.*;
-import gift.exception.AlreadyWishedException;
-import gift.exception.UnauthorizedWishAccessException;
-import gift.repository.MemberJpaRepository;
-import gift.repository.ProductJpaRepository;
-import gift.repository.WishJpaRepository;
+import gift.wish.exception.AlreadyWishedException;
+import gift.wish.exception.UnauthorizedWishAccessException;
+import gift.member.domain.Member;
+import gift.product.domain.Product;
+import gift.member.repository.MemberJpaRepository;
+import gift.product.repository.ProductJpaRepository;
+import gift.wish.domain.Wish;
+import gift.wish.repository.WishJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional

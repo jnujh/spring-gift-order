@@ -1,4 +1,4 @@
-package gift.annotation;
+package gift.global.annotation;
 
 import java.lang.annotation.*;
 

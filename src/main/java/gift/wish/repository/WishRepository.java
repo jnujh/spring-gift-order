@@ -1,6 +1,6 @@
-package gift.repository;
+package gift.wish.repository;
 
-import gift.domain.WishOld;
+import gift.wish.domain.WishOld;
 
 import java.util.List;
 import java.util.Optional;

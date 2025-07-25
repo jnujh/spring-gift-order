@@ -1,12 +1,11 @@
 package gift.controller;
 
-import gift.domain.Product;
-import gift.domain.ProductOld;
-import gift.dto.OptionRequest;
-import gift.dto.ProductRequest;
-import gift.dto.WishResponse;
-import gift.service.MemberService;
-import gift.service.ProductService;
+import gift.product.domain.Product;
+import gift.option.dto.OptionRequest;
+import gift.product.dto.ProductRequest;
+import gift.wish.dto.WishResponse;
+import gift.member.service.MemberService;
+import gift.product.service.ProductService;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.HttpClientErrorException;

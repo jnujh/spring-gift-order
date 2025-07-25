@@ -1,5 +1,7 @@
-package gift.exception;
+package gift.global.exception;
 
+import gift.wish.exception.AlreadyWishedException;
+import gift.wish.exception.UnauthorizedWishAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

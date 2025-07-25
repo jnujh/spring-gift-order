@@ -1,5 +1,7 @@
-package gift.domain;
+package gift.wish.domain;
 
+import gift.member.domain.Member;
+import gift.product.domain.Product;
 import jakarta.persistence.*;
 
 @Entity

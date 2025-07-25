@@ -1,11 +1,12 @@
 package gift.service;
 
-import gift.domain.Option;
-import gift.domain.Product;
-import gift.dto.OptionRequest;
-import gift.dto.ProductRequest;
-import gift.repository.OptionJpaRepository;
-import gift.repository.ProductJpaRepository;
+import gift.option.domain.Option;
+import gift.option.service.OptionService;
+import gift.product.domain.Product;
+import gift.option.dto.OptionRequest;
+import gift.product.dto.ProductRequest;
+import gift.option.repository.OptionJpaRepository;
+import gift.product.repository.ProductJpaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;

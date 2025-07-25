@@ -1,11 +1,11 @@
-package gift.controller;
+package gift.wish.controller;
 
-import gift.annotation.LoginMember;
-import gift.domain.Member;
-import gift.domain.Wish;
-import gift.dto.WishRequest;
-import gift.dto.WishResponse;
-import gift.service.WishService;
+import gift.global.annotation.LoginMember;
+import gift.member.domain.Member;
+import gift.wish.domain.Wish;
+import gift.wish.dto.WishRequest;
+import gift.wish.dto.WishResponse;
+import gift.wish.service.WishService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

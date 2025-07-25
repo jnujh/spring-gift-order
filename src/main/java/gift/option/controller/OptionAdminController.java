@@ -1,7 +1,7 @@
-package gift.controller;
+package gift.option.controller;
 
-import gift.dto.OptionRequest;
-import gift.service.OptionService;
+import gift.option.dto.OptionRequest;
+import gift.option.service.OptionService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

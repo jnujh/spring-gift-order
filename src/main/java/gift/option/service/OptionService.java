@@ -1,10 +1,10 @@
-package gift.service;
+package gift.option.service;
 
-import gift.domain.Option;
-import gift.domain.Product;
-import gift.dto.OptionResponse;
-import gift.repository.OptionJpaRepository;
-import gift.repository.ProductJpaRepository;
+import gift.option.domain.Option;
+import gift.product.domain.Product;
+import gift.option.dto.OptionResponse;
+import gift.option.repository.OptionJpaRepository;
+import gift.product.repository.ProductJpaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
