@@ -1,7 +1,8 @@
-package gift.domain;
+package gift.member.domain;
 
-import gift.policy.EmailPolicy;
-import gift.policy.PasswordPolicy;
+import gift.wish.domain.Wish;
+import gift.member.policy.EmailPolicy;
+import gift.member.policy.PasswordPolicy;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
