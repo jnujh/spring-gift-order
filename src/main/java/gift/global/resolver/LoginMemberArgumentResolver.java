@@ -1,8 +1,8 @@
 package gift.resolver;
 
 import gift.annotation.LoginMember;
-import gift.domain.Member;
-import gift.service.MemberService;
+import gift.member.domain.Member;
+import gift.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

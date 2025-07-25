@@ -21,6 +21,9 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "social_id", unique = true)
+    private Long socialId;
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wish> wishes = new ArrayList<>();
 
@@ -48,6 +51,17 @@ public class Member {
         Member member = new Member();
         member.email = email;
         member.password = encodedPassword;
+        return member;
+    }
+
+    // 소셜 로그인용 회원 생성
+    public static Member createSocial(String email, String encodedPassword, Long socialId) {
+        validateEmail(email);
+
+        Member member = new Member();
+        member.email = email;
+        member.password = encodedPassword;
+        member.socialId = socialId;
         return member;
     }
 
@@ -85,5 +99,9 @@ public class Member {
 
     public List<Wish> getWishes() {
         return wishes;
+    }
+
+    public Long getSocialId() {
+        return socialId;
     }
 }
