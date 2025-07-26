@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
@@ -44,6 +45,17 @@ public class KakaoLoginService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    // 카카오 인가 코드 요청 URL을 생성
+    public String getKakaoAuthUrl() {
+        String kakaoAuthUrl = UriComponentsBuilder.fromHttpUrl("https://kauth.kakao.com/oauth/authorize")
+                .queryParam("scope", "talk_message,profile_nickname")
+                .queryParam("response_type", "code")
+                .queryParam("redirect_uri", kakaoRedirectUri)
+                .queryParam("client_id", kakaoClientId)
+                .toUriString();
+
+        return kakaoAuthUrl;
+    }
 
     @Transactional
     public String processKakaoLogin(String authCode) {

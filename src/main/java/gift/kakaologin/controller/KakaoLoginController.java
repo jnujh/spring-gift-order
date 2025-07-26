@@ -17,13 +17,6 @@ public class KakaoLoginController {
 
     private static final Logger log = LoggerFactory.getLogger(KakaoLoginController.class);
 
-     // application.properties에 설정한 kakao.client-id와 kakao.redirect-uri 값 주입
-    @Value("${kakao.client-id}")
-    private String kakaoClientId;
-
-    @Value("${kakao.redirect-uri}")
-    private String kakaoRedirectUri;
-
     // KakaoLoginService 주입
     private final KakaoLoginService kakaoLoginService;
 
@@ -32,19 +25,12 @@ public class KakaoLoginController {
     }
 
     /**
-     * 사용자가 '카카오 로그인' 버튼을 누르면 호출
+     * 사용자가 '카카오 로그인' 버튼을 누르면 KakaoLoginService.getKakaoAuthUrl() 메서드를 호출
      * 카카오 로그인 페이지로 리다이렉트
-     * 카카오 인가 코드 요청 URL을 생성
      */
     @GetMapping("/kakao/login")
     public String startKakaoLogin() {
-        String kakaoAuthUrl = UriComponentsBuilder.fromHttpUrl("https://kauth.kakao.com/oauth/authorize")
-                .queryParam("scope", "talk_message,profile_nickname")
-                .queryParam("response_type", "code")
-                .queryParam("redirect_uri", kakaoRedirectUri)
-                .queryParam("client_id", kakaoClientId)
-                .toUriString();
-
+        String kakaoAuthUrl = kakaoLoginService.getKakaoAuthUrl();
         log.info("Kakao Auth URL 로 Redirect: {}", kakaoAuthUrl);
 
         return "redirect:" + kakaoAuthUrl;
