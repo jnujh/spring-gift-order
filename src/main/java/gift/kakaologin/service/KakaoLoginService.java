@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import gift.auth.JwtTokenProvider;
+import gift.kakaologin.exception.InvalidKakaoAuthCodeException;
+import gift.kakaologin.exception.MismatchedKakaoRedirectUriException;
 import gift.member.domain.Member;
 import gift.kakaologin.dto.KakaoUserInfo;
 import gift.member.repository.MemberJpaRepository;
@@ -86,11 +88,41 @@ public class KakaoLoginService {
             String accessToken = rootNode.path("access_token").asText();
             log.info("카카오 액세스 토큰 발급 성공");
             return accessToken;
-        } catch (HttpClientErrorException | JsonProcessingException e) {
-            log.error("카카오 액세스 토큰 발급 실패", e);
+        } catch (HttpClientErrorException e) {
+            // HTTP 상태 코드 확인
+            log.error("카카오 API 요청 실패. Status: {}, Body: {}", e.getStatusCode(), e.getResponseBodyAsString());
+
+            if (e.getStatusCode() == HttpStatus.BAD_REQUEST) { // 400 Bad Request
+                try {
+                    // JSON 본문 파싱 - 에러 코드 확인
+                    JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());
+                    String errorCode = errorNode.path("error_code").asText();
+
+                    // 에러 코드에 대응하는 전용 예외 던진다.
+                    switch (errorCode) {
+                        case "KOE320":
+                            throw new InvalidKakaoAuthCodeException("유효하지 않은 카카오 인가 코드입니다.", e);
+                        case "KOE303":
+                            throw new MismatchedKakaoRedirectUriException("설정된 Redirect URI와 일치하지 않습니다.", e);
+                        default:
+                            // 다른 400 에러들
+                            throw new RuntimeException("카카오 토큰 요청 중 Bad Request 에러가 발생했습니다.", e);
+                    }
+                } catch (JsonProcessingException jsonEx) {
+                    // 에러 응답 본문을 파싱하지 못하는 경우
+                    throw new RuntimeException("카카오 에러 응답을 파싱하는데 실패했습니다.", jsonEx);
+                }
+            }
+            // 400 외 다른 HTTP 에러
             throw new RuntimeException("카카오 토큰 요청에 실패했습니다.", e);
+
+        } catch (JsonProcessingException e) {
+            // 성공 응답이 왔지만, JSON 형식이 아닐 경우
+            log.error("카카오 응답 파싱 실패", e);
+            throw new RuntimeException("카카오 응답을 파싱하는데 실패했습니다.", e);
         }
     }
+
 
     // 2. 액세스 토큰으로 카카오 사용자 정보(고유 ID, 닉네임) 요청
     private KakaoUserInfo getKakaoUserInfo(String accessToken) {

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.JwtTokenProvider;
+import gift.kakaologin.exception.InvalidKakaoAuthCodeException;
+import gift.kakaologin.exception.MismatchedKakaoRedirectUriException;
 import gift.member.domain.Member;
 import gift.kakaologin.service.KakaoLoginService;
 import gift.member.repository.MemberJpaRepository;
@@ -110,11 +112,49 @@ class KakaoLoginServiceTest {
     }
 
     @Test
-    @DisplayName("카카오 액세스 토큰 요청이 실패하면 RuntimeException을 던진다")
-    void getAccessToken_whenKakaoFails_thenThrowException() {
-        // given: RestTemplate이 HttpClientErrorException을 던지도록 설정
+    @DisplayName("KOE320 에러(잘못된 인가 코드) 발생 시 InvalidKakaoAuthCodeException을 던진다")
+    void getAccessToken_whenInvalidAuthCode_thenThrowCustomException() throws JsonProcessingException {
+        // given: 카카오 API가 KOE320 에러를 반환하는 상황을 Mocking
+        String errorJson = "{\"error_code\":\"KOE320\"}";
+        JsonNode errorNode = new ObjectMapper().readTree(errorJson);
+
+        HttpClientErrorException exception = new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Bad Request");
         given(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
-                .willThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "카카오 서버 오류"));
+                .willThrow(exception);
+        // 에러 응답 본문을 파싱하는 objectMapper도 Mocking
+        given(objectMapper.readTree(exception.getResponseBodyAsString())).willReturn(errorNode);
+
+        // when & then
+        assertThatThrownBy(() -> kakaoLoginService.processKakaoLogin(authCode))
+                .isInstanceOf(InvalidKakaoAuthCodeException.class)
+                .hasMessageContaining("유효하지 않은 카카오 인가 코드입니다.");
+    }
+
+    @Test
+    @DisplayName("KOE303 에러(Redirect URI 불일치) 발생 시 MismatchedKakaoRedirectUriException을 던진다")
+    void getAccessToken_whenMismatchedRedirectUri_thenThrowCustomException() throws JsonProcessingException {
+        // given: 카카오 API가 KOE303 에러를 반환하는 상황을 Mocking
+        String errorJson = "{\"error_code\":\"KOE303\"}";
+        JsonNode errorNode = new ObjectMapper().readTree(errorJson);
+
+        HttpClientErrorException exception = new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Bad Request");
+        given(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
+                .willThrow(exception);
+        given(objectMapper.readTree(exception.getResponseBodyAsString())).willReturn(errorNode);
+
+        // when & then
+        assertThatThrownBy(() -> kakaoLoginService.processKakaoLogin(authCode))
+                .isInstanceOf(MismatchedKakaoRedirectUriException.class)
+                .hasMessageContaining("설정된 Redirect URI와 일치하지 않습니다.");
+    }
+
+
+    @Test
+    @DisplayName("예상치 못한 HTTP 에러(400 외) 발생 시 RuntimeException을 던진다") // 테스트 의도를 더 명확하게 변경
+    void getAccessToken_whenUnexpectedHttpError_thenThrowRuntimeException() {
+        // given: RestTemplate이 400이 아닌 다른 HTTP 에러를 던지도록 설정 (ex 401 Unauthorized)
+        given(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
+                .willThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "인증 실패"));
 
         // when & then
         assertThatThrownBy(() -> kakaoLoginService.processKakaoLogin(authCode))

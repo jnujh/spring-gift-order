@@ -1,5 +1,7 @@
 package gift.global.exception;
 
+import gift.kakaologin.exception.InvalidKakaoAuthCodeException;
+import gift.kakaologin.exception.MismatchedKakaoRedirectUriException;
 import gift.wish.exception.AlreadyWishedException;
 import gift.wish.exception.UnauthorizedWishAccessException;
 import org.springframework.http.HttpStatus;
@@ -65,6 +67,26 @@ public class GlobalExceptionHandler {
         error.put("message", e.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
+
+    // 7. 유효하지 않은 카카오 인가 코드로 인한 예외 처리
+    @ExceptionHandler(InvalidKakaoAuthCodeException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidKakaoAuthCodeException(InvalidKakaoAuthCodeException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", "카카오 로그인에 실패했습니다. 다시 시도해주세요.");
+        // 사용자가 잘못된 인가 코드를 보낸 것이므로, 400 Bad Request를 반환
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    // 8. 서버에 설정된 Redirect URI와 일치하지 않아 발생하는 예외 처리
+    @ExceptionHandler(MismatchedKakaoRedirectUriException.class)
+    public ResponseEntity<Map<String, String>> handleMismatchedRedirectUriException(MismatchedKakaoRedirectUriException e) {
+        // 개발자의 서버 설정 문제
+        Map<String, String> error = new HashMap<>();
+        error.put("message", "서버에 오류가 발생했습니다. 관리자에게 문의하세요.");
+        // 서버 설정 문제이므로, 500 Internal Server Error를 반환
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
 
     // 위 예외들을 제외하고 다른 예외가 터지면 여기서 잡는다.
     @ExceptionHandler(Exception.class)
