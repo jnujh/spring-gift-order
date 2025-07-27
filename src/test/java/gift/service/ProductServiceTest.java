@@ -1,11 +1,12 @@
 package gift.service;
 
-import gift.domain.Product;
-import gift.dto.OptionRequest;
-import gift.dto.ProductRequest;
-import gift.exception.ProductNotFoundException;
-import gift.repository.ProductRepository;
-import gift.domain.ProductOld;
+import gift.product.domain.Product;
+import gift.option.dto.OptionRequest;
+import gift.product.dto.ProductRequest;
+import gift.product.exception.ProductNotFoundException;
+import gift.product.service.ProductService;
+import gift.product.repository.ProductRepository;
+import gift.product.domain.ProductOld;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

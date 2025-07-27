@@ -1,6 +1,8 @@
 package gift.domain;
 
-import gift.dto.OptionRequest;
+import gift.option.dto.OptionRequest;
+import gift.option.domain.Option;
+import gift.product.domain.Product;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

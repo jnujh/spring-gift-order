@@ -1,9 +1,8 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.dto.OptionRequest;
-import gift.dto.ProductRequest;
-import org.junit.jupiter.api.DisplayName;
+import gift.option.dto.OptionRequest;
+import gift.product.dto.ProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

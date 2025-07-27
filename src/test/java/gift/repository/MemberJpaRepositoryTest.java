@@ -1,6 +1,7 @@
 package gift.repository;
 
-import gift.domain.Member;
+import gift.member.domain.Member;
+import gift.member.repository.MemberJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
