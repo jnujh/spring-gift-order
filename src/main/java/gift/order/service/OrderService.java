@@ -6,6 +6,7 @@ import gift.option.domain.Option;
 import gift.option.repository.OptionJpaRepository;
 import gift.order.domain.Order;
 import gift.order.dto.OrderRequest;
+import gift.order.exception.OptionNotFoundException;
 import gift.order.repository.OrderJpaRepository;
 import gift.wish.repository.WishJpaRepository;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class OrderService {
 
         // 주문 옵션 조회
         Option option = optionJpaRepository.findById(request.optionId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 옵션입니다. ID: " + request.optionId()));
+                .orElseThrow(() -> new OptionNotFoundException("존재하지 않는 옵션입니다. ID: " + request.optionId()));
 
         // 수량 차감
         option.subtract(request.quantity());

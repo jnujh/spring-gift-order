@@ -1,5 +1,6 @@
 package gift.option.domain;
 
+import gift.order.exception.InsufficientStockException;
 import gift.product.domain.Product;
 import jakarta.persistence.*;
 
@@ -48,7 +49,7 @@ public class Option {
         }
 
         if (this.quantity < amount) {
-            throw new IllegalArgumentException("재고가 부족합니다");
+            throw new InsufficientStockException("재고가 부족합니다. 현재 재고: " + this.quantity);
         }
 
         this.quantity -= amount;
