@@ -33,7 +33,7 @@ public class Order {
     protected Order() {
     }
 
-    public Order create(Member member, Option option, int quantity, String message) {
+    public static Order create(Member member, Option option, int quantity, String message) {
 
         validateQuantity(quantity);
 
