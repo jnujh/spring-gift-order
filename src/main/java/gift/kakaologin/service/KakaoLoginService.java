@@ -63,7 +63,11 @@ public class KakaoLoginService {
     public String processKakaoLogin(String authCode) {
         String accessToken = getAccessToken(authCode);
         KakaoUserInfo userInfo = getKakaoUserInfo(accessToken);
+
+        // 멤버를 찾거나 생성 및 액세스 토큰 업데이트
         Member member = findOrCreateMember(userInfo);
+        member.updateKakaoAccessToken(accessToken);
+
         return jwtTokenProvider.createToken(member.getId());
     }
 
