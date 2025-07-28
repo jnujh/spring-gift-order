@@ -2,6 +2,7 @@ package gift.domain;
 
 import gift.option.dto.OptionRequest;
 import gift.option.domain.Option;
+import gift.order.exception.InsufficientStockException;
 import gift.product.domain.Product;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +45,7 @@ class OptionTest {
 
         // when & then
         assertThatThrownBy(() -> option.subtract(10))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InsufficientStockException.class)
                 .hasMessageContaining("재고가 부족합니다");
     }
 }
