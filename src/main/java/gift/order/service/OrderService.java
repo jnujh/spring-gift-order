@@ -6,6 +6,7 @@ import gift.option.repository.OptionJpaRepository;
 import gift.order.domain.Order;
 import gift.order.dto.OrderRequest;
 import gift.order.repository.OrderJpaRepository;
+import gift.wish.repository.WishJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +16,12 @@ public class OrderService {
 
     private final OrderJpaRepository orderJpaRepository;
     private final OptionJpaRepository optionJpaRepository;
+    private final WishJpaRepository wishJpaRepository;
 
-    public OrderService(OrderJpaRepository orderJpaRepository, OptionJpaRepository optionJpaRepository) {
+    public OrderService(OrderJpaRepository orderJpaRepository, OptionJpaRepository optionJpaRepository, WishJpaRepository wishJpaRepository) {
         this.orderJpaRepository = orderJpaRepository;
         this.optionJpaRepository = optionJpaRepository;
+        this.wishJpaRepository = wishJpaRepository;
     }
 
     // 주문 생성
@@ -33,6 +36,11 @@ public class OrderService {
 
         // Order (주문 생성)
         Order order = Order.create(member, option, request.quantity(), request.message());
-        return orderJpaRepository.save(order);
+        orderJpaRepository.save(order);
+
+        // 위시리스트에 존재하던 상품이면 위시리스트에서 삭제
+        wishJpaRepository.deleteByMemberAndProduct(member, option.getProduct());
+
+        return order;
     }
 }

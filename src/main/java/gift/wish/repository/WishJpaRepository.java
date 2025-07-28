@@ -36,4 +36,6 @@ public interface WishJpaRepository extends JpaRepository<Wish, Long> {
 
     // 페이지네이션
     Page<Wish> findByMemberId(Long memberId, Pageable pageable);
+
+    void deleteByMemberAndProduct(Member member, Product product);
 }
