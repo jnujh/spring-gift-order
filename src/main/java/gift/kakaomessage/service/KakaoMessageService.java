@@ -3,6 +3,7 @@ package gift.kakaomessage.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.kakaomessage.dto.KakaoMessageRequest;
+import gift.kakaomessage.exception.KakaoMessageException;
 import gift.order.domain.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +50,13 @@ public class KakaoMessageService {
             log.info("주문 완료 카카오톡 메시지 전송 성공. 받는사람: {}", order.getMember().getEmail());
 
         } catch (JsonProcessingException e) {
-            log.error("카카오 메시지 template_object JSON 변환 실패", e);
+            log.error("카카오 메시지 template_object JSON 변환 실패", e); // 서버 내부 오류
+            throw new KakaoMessageException("카카오 메시지 요청을 만드는 데 실패했습니다.", e);
         } catch (HttpClientErrorException e) {
-            log.error("카카오 메시지 API 호출 실패. Status: {}, Body: {}", e.getStatusCode(), e.getResponseBodyAsString());
+            log.error("카카오 메시지 API 호출 실패. Status: {}, Body: {}", e.getStatusCode(), e.getResponseBodyAsString()); // 외부 API 오류
+            throw new KakaoMessageException("카카오 메시지 전송에 실패했습니다. 원인: " + e.getResponseBodyAsString(), e);
         }
+
+
     }
 }
