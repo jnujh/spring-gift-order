@@ -1,5 +1,6 @@
 package gift.member.domain;
 
+import gift.order.domain.Order;
 import gift.wish.domain.Wish;
 import gift.member.policy.EmailPolicy;
 import gift.member.policy.PasswordPolicy;
@@ -28,7 +29,8 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wish> wishes = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     protected Member() {
     }
@@ -104,5 +106,9 @@ public class Member {
 
     public Long getSocialId() {
         return socialId;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 }
