@@ -1,5 +1,6 @@
 package gift.member.domain;
 
+import gift.order.domain.Order;
 import gift.wish.domain.Wish;
 import gift.member.policy.EmailPolicy;
 import gift.member.policy.PasswordPolicy;
@@ -25,10 +26,14 @@ public class Member {
     @Column(name = "social_id", unique = true)
     private Long socialId;
 
+    @Column(name = "kakao_access_token", length = 512)
+    private String kakaoAccessToken;
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wish> wishes = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     protected Member() {
     }
@@ -64,6 +69,10 @@ public class Member {
         member.password = encodedPassword;
         member.socialId = socialId;
         return member;
+    }
+
+    public void updateKakaoAccessToken(String kakaoAccessToken) {
+        this.kakaoAccessToken = kakaoAccessToken;
     }
 
     // 이메일 유효성 검사
@@ -104,5 +113,13 @@ public class Member {
 
     public Long getSocialId() {
         return socialId;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public String getKakaoAccessToken() {
+        return kakaoAccessToken;
     }
 }

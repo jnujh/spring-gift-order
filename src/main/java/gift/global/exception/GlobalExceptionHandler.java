@@ -2,6 +2,9 @@ package gift.global.exception;
 
 import gift.kakaologin.exception.InvalidKakaoAuthCodeException;
 import gift.kakaologin.exception.MismatchedKakaoRedirectUriException;
+import gift.kakaomessage.exception.KakaoMessageException;
+import gift.order.exception.InsufficientStockException;
+import gift.order.exception.OptionNotFoundException;
 import gift.wish.exception.AlreadyWishedException;
 import gift.wish.exception.UnauthorizedWishAccessException;
 import org.springframework.http.HttpStatus;
@@ -84,6 +87,30 @@ public class GlobalExceptionHandler {
         Map<String, String> error = new HashMap<>();
         error.put("message", "서버에 오류가 발생했습니다. 관리자에게 문의하세요.");
         // 서버 설정 문제이므로, 500 Internal Server Error를 반환
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    // 9. 존재하지 않는 옵션 주문 시 예외 처리
+    @ExceptionHandler(OptionNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleOptionNotFoundException(OptionNotFoundException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    // 10. 재고 부족 시 예외 처리
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<Map<String, String>> handleInsufficientStockException(InsufficientStockException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    // 11. 카카오 메시지 전송 실패 시 예외 처리
+    @ExceptionHandler(KakaoMessageException.class)
+    public ResponseEntity<Map<String, String>> handleKakaoMessageException(KakaoMessageException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", "알림 전송 중 서버에 문제가 발생했습니다. 주문은 정상 처리되었을 수 있으니 확인해주세요.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
