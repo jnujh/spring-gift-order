@@ -9,6 +9,8 @@ import gift.wish.repository.WishJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
@@ -30,6 +32,7 @@ public class OrderEventListener {
      * 주문 완료 이벤트 수신하면 위시리스트 처리
      */
     @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handleWishlist(OrderPlacedEvent event) {
         log.info("주문 완료 이벤트 수신 (위시리스트 처리): orderId={}", event.orderId());
         Order order = orderRepository.findById(event.orderId())
@@ -42,6 +45,7 @@ public class OrderEventListener {
      * 주문 완료 이벤트 수신하면 카카오 메시지 발송
      */
     @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public void handleKakaoMessage(OrderPlacedEvent event) {
         log.info("주문 완료 이벤트 수신 (카카오 메시지 발송): orderId={}", event.orderId());
         Order order = orderRepository.findById(event.orderId())
