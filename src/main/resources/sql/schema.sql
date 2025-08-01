@@ -28,3 +28,23 @@ CREATE TABLE wish (
     FOREIGN KEY (member_id) REFERENCES member(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
+
+CREATE TABLE options (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    product_id BIGINT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE,
+    UNIQUE (product_id, name)
+);
+
+CREATE TABLE orders (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    member_id BIGINT NOT NULL,
+    option_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    message TEXT,
+    order_date_time TIMESTAMP NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE,
+    FOREIGN KEY (option_id) REFERENCES options(id) ON DELETE CASCADE
+);
