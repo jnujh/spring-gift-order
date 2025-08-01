@@ -9,7 +9,11 @@ CREATE TABLE product (
 CREATE TABLE member (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+
+    social_id BIGINT UNIQUE,
+
+    kakao_access_token VARCHAR(512)
 );
 
 CREATE TABLE wish (
